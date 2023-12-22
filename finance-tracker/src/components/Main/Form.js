@@ -3,6 +3,7 @@ import { TextField, Typography, Grid, Button, FormControl, InputLabel, Select, M
 import { expenseTrackerContext } from '../../context/context';
 import { create } from '@mui/material/styles/createTransitions';
 import { v4 as uuidv4 } from 'uuid';
+import { incomeCategories, expenseCategories } from '../../constants/categories';
 
 const initialState = {
     amount: '',
@@ -36,6 +37,8 @@ function Form() {
         setFormData(initialState);
     }
 
+    const selectedCategories = formData.type === "Income" ? incomeCategories : expenseCategories;
+
   return (
       <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -55,10 +58,11 @@ function Form() {
           <Grid item xs={6}>
               <FormControl fullWidth>
                   <InputLabel> Category </InputLabel>
-                  <Select value={formData.category} onChange={ (e) => setFormData({...formData, category: e.target.value}) }> 
-                      <MenuItem value="Business"> Business </MenuItem>
+                  <Select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}> 
+                      {selectedCategories.map((cat) => <MenuItem key={cat.type} value={cat.type}>{ cat.type }</MenuItem>)}
+                      {/* <MenuItem value="Business"> Business </MenuItem>
                       <MenuItem value="Salary"> Salary </MenuItem>
-                      <MenuItem value="Rent"> Rent </MenuItem>
+                      <MenuItem value="Rent"> Rent </MenuItem> */}
                   </Select>
               </FormControl>
           </Grid>
